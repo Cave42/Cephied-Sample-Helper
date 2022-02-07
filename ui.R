@@ -3,23 +3,25 @@ library(shinyWidgets)
 library(shinycssloaders)
 library(shinythemes)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
   fluidPage(
     theme = shinytheme("sandstone"),
     
     titlePanel("Biofire PDF Data Extractor"),
-        mainPanel(
-            
-        ),
     
+    navbarPage(
+      "Extracts Data Needed From Biofire As A Excel File"
+    ),
+    
+    mainPanel(
+
     column(
       width = 2,
       offset = 0,
       style = 'padding-left:0px; padding-right:0px; padding-top:25px; padding-bottom:0px',
       h6("Choose a pdf file"),
-      
+
       fileInput(
         inputId = "fileInput2",
         label =  NULL,
@@ -29,11 +31,16 @@ shinyUI(fluidPage(
         buttonLabel = "Browse...",
         placeholder = "No file selected"
       )
-      
-      ),
+    ),
     
-    fluidRow(column(1,
-                    downloadButton('downloadData', 'Download')),
-    ))
+    column(
+      width = 2,
+      offset = 0,
+      h6("Download Extracted Data"),
+      style = 'padding-left:40px; padding-right:0px; padding-top: 25px; padding-bottom:0px',
+      downloadButton('downloadData', 'Download')),
     
-))
+    )
+    )
+)
+)
