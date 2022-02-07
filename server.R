@@ -85,11 +85,15 @@ shinyServer(function(input, output) {
         
         detected
         
+        #print(detected)
+        
         #check if covid positive
-        positive = "Not Detected      Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2)"
+        positive = "Not Detected     Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2)"
         
         #check if covid positive results in test
         checkPositive <- grepl(positive, detected, fixed = TRUE)
+        
+        print(checkPositive)
         
         #print if results are positive or not
         if (checkPositive == TRUE) {
