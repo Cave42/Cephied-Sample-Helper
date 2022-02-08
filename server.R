@@ -78,6 +78,8 @@ shinyServer(function(input, output) {
         #remove whitespace
         time3 <- gsub(" ", "", time2, fixed = TRUE)
         
+        time3 <- sub("([0-9])([A-Z])", "\\1 \\2", time3)
+        
         #print(time3)
         
         #take test results
