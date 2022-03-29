@@ -7,7 +7,7 @@ library(xlsx)
 shinyServer(function(input, output) {
   
    observe({
-     df <- data.frame(Sample_ID = " ", Technition_Name = " ", Date = " ", Time = " ", Results = " ")
+     df <- data.frame(Sample_ID = " ", Technician_Name = " ", Date = " ", Time = " ", Results_Cov2 = " ", Results_FluA = " ", Results_FluB = " ", Results_RSV = " ")
 
     pdf_file2  <- input$fileInput2
     
@@ -85,38 +85,97 @@ shinyServer(function(input, output) {
         #take test results
         detected <- gsub('^.*Viruses\\s*|\\s*Run Details.*$', '', txt)
         
+        #remove whitespace
+        detected <- gsub(" ", "", detected, fixed = TRUE)
+        
         detected
         
+        print(detected)
+
         #print(detected)
         
         #check if covid positive
-        positive = "Not Detected     Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2)"
+        positive <- "NotDetectedSevereAcuteRespiratorySyndromeCoronavirus2(SARS-CoV-2)"
+        
+        positiveFluA <- "NotDetectedInfluenzaA"
+        
+        positiveFluB <- "NotDetectedInfluenzaB"
+        
+        positiveRSV <- "NotDetectedRespiratorySyncytialVirus"
         
         #check if covid positive results in test
         checkPositive <- grepl(positive, detected, fixed = TRUE)
         
+        print("Cov")
+        
         print(checkPositive)
+        
+        checkPositiveFluA <- grepl(positiveFluA, detected, fixed = TRUE)
+        
+        print("FluA")
+        
+        print(checkPositiveFluA)
+        
+        checkPositiveFluB <- grepl(positiveFluB, detected, fixed = TRUE)
+        
+        print("FluB")
+        
+        print(checkPositiveFluB)
+        
+        checkPositiveRSV <- grepl(positiveRSV, detected, fixed = TRUE)
+        
+        print("RSV")
+        
+        print(checkPositiveRSV)
         
         #print if results are positive or not
         if (checkPositive == TRUE) {
-          #print("Not Dectected")
           
-          df[nrow(df) + 1,] = c(sampleID, techInitials, date, time3, "Not Detected")
-          
-          #T <- table(df$SampleID1, df$technitionName)
-          # <- table(sampleID, techInitials, date, time3, "Not detected")
+          CovCheck <- "Not Detected"
           
         } else {
           
-          #print("Detected")
+          CovCheck <- "Detected"
           
-          df[nrow(df) + 1,] = c(sampleID, techInitials, date, time3, "Detected")
-          
-          #T <- table(sampleID, techInitials, date, time3, "Not detected")
         }
-        #print.table(T)
+        
+        if (checkPositiveFluA == TRUE) {
+          
+          FluACheck <- "Not Detected"
+          
+        } else {
+          
+          FluACheck <- "Detected"
+          
+        }
+        
+        
+        if (checkPositiveFluB == TRUE) {
+          
+          FluBCheck <- "Not Detected"
+          
+        } else {
+          
+          FluBCheck <- "Detected"
+          
+        }
+        
+        if (checkPositiveRSV == TRUE) {
+          
+          RSVCheck <- "Not Detected"
+          
+        } else {
+          
+          RSVCheck <- "Detected"
+          
+        }
+        
+        df[nrow(df) + 1,] = c(sampleID, techInitials, date, time3, CovCheck, FluACheck, FluBCheck, RSVCheck)
         
       }
+      
+      
+      
       print(df)
       
       # output$downloadData <- downloadHandler(
